@@ -1,0 +1,11 @@
+[Unit]
+Description=Phoenix server
+After=network.target
+
+[Service]
+ExecStart=/home/kreiling/hw02b/start.sh
+WorkingDirectory=/home/kreiling/hw02b
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
