@@ -9,9 +9,18 @@ defmodule Practice.Calc do
     # but doesn't need to handle parens.
     expr
     |> String.split(~r/\s+/)
-    |> hd
-    |> parse_float
-    |> :math.sqrt()
+    |> Enum.map(fn x -> 
+      cond do
+        Enum.member?(["+", "-", "/", "*"], x) -> { :op, x }
+        true -> { :num, parse_float(x) }  # Don't need to worry about error case
+      end
+    end)
+    |> Enum.reduce([], fn x, acc -> 
+      cond do
+        elem(x, 0) == :num
+      end
+    end)
+    |> Enum.reverse
 
     # Hint:
     # expr
