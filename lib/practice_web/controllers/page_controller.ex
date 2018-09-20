@@ -18,9 +18,13 @@ defmodule PracticeWeb.PageController do
   end
 
   def factor(conn, %{"x" => x}) do
-    {arg, _} = Integer.parse(x)
-    y = Practice.factor(arg)
-    render conn, "factor.html", x: x, y: Enum.join(y, ", ")
+    if String.length(x) > 25 do
+      render conn, "factor_error.html"
+    else
+      {arg, _} = Integer.parse(x)
+      y = Practice.factor(arg)
+      render conn, "factor.html", x: x, y: Enum.join(y, ", ")
+    end
   end
 
   def palindrome(conn, %{"x" => x}) do
