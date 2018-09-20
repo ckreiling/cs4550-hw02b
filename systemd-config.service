@@ -4,8 +4,10 @@ After=network.target
 
 [Service]
 ExecStart=/home/kreiling/hw02b/start.sh
+ExecStop=/home/kreiling/hw02b/_build/prod/rel/practice/bin/practice stop || true
 WorkingDirectory=/home/kreiling/hw02b
 RemainAfterExit=yes
+User=root
 
 [Install]
 WantedBy=multi-user.target
