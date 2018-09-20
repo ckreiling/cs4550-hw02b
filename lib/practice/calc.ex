@@ -17,7 +17,7 @@ defmodule Practice.Calc do
     end)
     |> Enum.reduce([], fn x, acc -> 
       cond do
-        elem(x, 0) == :num
+        elem(x, 0) == :num -> ""
       end
     end)
     |> Enum.reverse
@@ -29,5 +29,30 @@ defmodule Practice.Calc do
     # |> convert to postfix
     # |> reverse to prefix
     # |> evaluate as a stack calculator using pattern matching
+  end
+  
+  def factor(x) do
+    factor(x, div(x, 2))
+    |> Enum.flat_map(fn i -> 
+      if is_prime?(i) do
+        [i]
+      else
+        factor(i)
+      end
+    end)
+  end
+
+  def factor(x, i) when x == 1 or i == 1 do [] end
+
+  def factor(x, i) do
+    if rem(x, i) == 0 do
+      [i | factor(x, i - 1)]
+    else
+      factor(x, i - 1)
+    end
+  end
+
+  def is_prime?(x) do
+    factor(x) == []
   end
 end
