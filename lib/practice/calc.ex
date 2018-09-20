@@ -1,8 +1,5 @@
 defmodule Practice.Calc do
-  def parse_float(text) do
-    {num, _} = Float.parse(text)
-    num
-  end
+  import Practice.Utils
 
   def calc(expr) do
     # This should handle +,-,*,/ with order of operations,
@@ -32,27 +29,25 @@ defmodule Practice.Calc do
   end
   
   def factor(x) do
-    factor(x, div(x, 2))
-    |> Enum.flat_map(fn i -> 
-      if is_prime?(i) do
-        [i]
-      else
-        factor(i)
-      end
-    end)
+    find_factors(x)
+    |> Enum.filter(fn i -> i != 1 end)
   end
 
-  def factor(x, i) when x == 1 or i == 1 do [] end
-
-  def factor(x, i) do
-    if rem(x, i) == 0 do
-      [i | factor(x, i - 1)]
-    else
-      factor(x, i - 1)
+  # Have to define this here so the the other find_factors isn't run first
+  def find_factors(x, n \\ 2)
+  def find_factors(x, 2) do
+    cond do
+      rem(x, 2) == 0 -> [2 | find_factors(div(x, 2))]
+      4 > x -> [x]
+      true -> find_factors(x, 3)
     end
   end
 
-  def is_prime?(x) do
-    factor(x) == []
+  def find_factors(x, n) do
+    cond do
+      rem(x, n) == 0 -> [n | find_factors(div(x, n))]
+      x < n * 2 -> [x]
+      true -> find_factors(x, n + 2)
+    end
   end
 end

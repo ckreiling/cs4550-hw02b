@@ -1,5 +1,6 @@
 defmodule PracticeWeb.PageController do
   use PracticeWeb, :controller
+  import Practice.Utils
 
   def index(conn, _params) do
     render conn, "index.html"
@@ -17,8 +18,9 @@ defmodule PracticeWeb.PageController do
   end
 
   def factor(conn, %{"x" => x}) do
-    y = Practice.factor(x)
-    render conn, "factor.html", x: x, y: y
+    {arg, _} = Integer.parse(x)
+    y = Practice.factor(arg)
+    render conn, "factor.html", x: x, y: Enum.join(y, ", ")
   end
 
   def palindrome(conn, %{"x" => x}) do
