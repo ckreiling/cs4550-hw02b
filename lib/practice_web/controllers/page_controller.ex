@@ -1,5 +1,6 @@
 defmodule PracticeWeb.PageController do
   use PracticeWeb, :controller
+  import Practice.Utils
 
   def index(conn, _params) do
     render conn, "index.html"
@@ -17,10 +18,18 @@ defmodule PracticeWeb.PageController do
   end
 
   def factor(conn, %{"x" => x}) do
-    y = Practice.factor(x)
-    render conn, "factor.html", x: x, y: y
+    limit = 11 # limit for the size of the input
+    if String.length(x) > limit do
+      render conn, "factor_error.html", limit: limit
+    else
+      {arg, _} = Integer.parse(x)
+      y = Practice.factor(arg)
+      render conn, "factor.html", x: x, y: Enum.join(y, ", ")
+    end
   end
 
-  # TODO: Add an action for palindrome.
-  # TODO: Add a template for palindrome over in lib/*_web/templates/page/??.html.eex
+  def palindrome(conn, %{"x" => x}) do
+    y = Practice.palindrome?(x)
+    render conn, "palindrome.html", x: x, y: y
+  end
 end
