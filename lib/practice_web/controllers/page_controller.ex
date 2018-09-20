@@ -18,8 +18,9 @@ defmodule PracticeWeb.PageController do
   end
 
   def factor(conn, %{"x" => x}) do
-    if String.length(x) > 25 do
-      render conn, "factor_error.html"
+    limit = 11 # limit for the size of the input
+    if String.length(x) > limit do
+      render conn, "factor_error.html", limit: limit
     else
       {arg, _} = Integer.parse(x)
       y = Practice.factor(arg)
